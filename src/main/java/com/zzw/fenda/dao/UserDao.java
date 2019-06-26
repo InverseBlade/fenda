@@ -17,7 +17,7 @@ public interface UserDao {
 
     void updateByUId(User user) throws Exception;
 
-    User selectByOpenId(@Param("openId") Integer openId) throws Exception;
+    User selectByOpenId(@Param("openId") String openId) throws Exception;
 
     List<UserListDTO> listUserByFilter(@Param("filter") UserListFilter filter,
                                        @Param("offset") Integer offset,
