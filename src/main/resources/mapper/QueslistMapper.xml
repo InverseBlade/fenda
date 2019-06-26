@@ -9,7 +9,7 @@
         values (#{giverID}, #{solverID}, #{quesInfo})
     </insert>
 
-    <select id="selectById" parameterType="Integer">
+    <select id="selectById" parameterType="Integer" resultType="Queslist">
         select *
         from queslist
         where quesID = #{id}
@@ -25,22 +25,22 @@
 
     <select id="listQuesByFilter" resultType="com.zzw.fenda.dto.AskListDTO">
         select q.*,
-            giver.photo as 'giverAvatar',
-            solver.photo as 'solverAvatar',
-            giver.nickname as 'giverNickname',
-            solver.nickname as 'solverNickname'
+               giver.photo     as 'giverAvatar',
+               solver.photo    as 'solverAvatar',
+               giver.nickname  as 'giverNickname',
+               solver.nickname as 'solverNickname'
         from queslist as q
-        inner join user giver on giver.uid = q.giverID
-        inner join user solver on solver.uid = q.solverID
+                 inner join user giver on giver.uid = q.giverID
+                 inner join user solver on solver.uid = q.solverID
         <where>
-            <if test="giverID != null">
-                and q.giverID = #{giverID}
+            <if test="filter.giverID != null">
+                and q.giverID = #{filter.giverID}
             </if>
-            <if test="solverID != null">
-                and q.solverID = #{solverID}
+            <if test="filter.solverID != null">
+                and q.solverID = #{filter.solverID}
             </if>
-            <if test="keyword != null">
-                and (q.quesInfo LIKE CONCAT('%',#{filter.keyword},'%')
+            <if test="filter.keyword != null">
+                and q.quesInfo LIKE CONCAT('%',#{filter.keyword},'%')
             </if>
         </where>
         limit #{offset},#{limit}

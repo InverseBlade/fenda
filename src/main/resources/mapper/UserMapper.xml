@@ -12,8 +12,8 @@
     </select>
 
     <insert id="insertAndGetUId" parameterType="User" keyProperty="uid">
-        insert into user(gender, nickname, photo, intro, phone, openid, honor)
-        values (#{gender}, #{nickname}, #{photo}, #{intro}, #{phone}, #{openid}, #{honor})
+        insert into user(gender, nickname, photo, openid)
+        values (#{gender}, #{nickname}, #{photo}, #{openid})
     </insert>
 
     <delete id="deleteByUId" parameterType="Integer">

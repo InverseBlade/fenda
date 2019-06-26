@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface QueslistDao {
 
-    void insertAndGetId(@Param("quesList") Queslist queslist) throws Exception;
+    void insertAndGetId(Queslist queslist) throws Exception;
 
-    void updateReplyById(@Param("quesList") Queslist queslist) throws Exception;
+    void updateReplyById(Queslist queslist) throws Exception;
 
     List<AskListDTO> listQuesByFilter(@Param("filter") AskListFilter filter,
                                       @Param("limit") Integer limit,
