@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.zzw.fenda.dao.ConcernDao">
+
+    <insert id="insert" parameterType="Concern">
+        insert into concern(viewer, blogger)
+        values (#{viewer}, #{blogger})
+    </insert>
+
+    <delete id="deleteByViewerAndBlogger">
+        delete
+        from concern
+        where viewer = #{viewer}
+          and blogger = #{blogger}
+    </delete>
+
+    <select id="selectByViewerAndBlogger" resultType="Concern">
+        select *
+        from concern
+        where viewer = #{viewer}
+          and blogger = #{blogger}
+        limit 1
+    </select>
+
+    <select id="listUserByViewer" resultType="com.zzw.fenda.dto.UserListDTO">
+        select u.uid, u.gender, u.nickname, u.photo, u.honor
+        from concern as c
+                 inner join user u on u.uid = c.blogger
+        where c.viewer = #{viewer}
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="listQuesByViewer" resultType="com.zzw.fenda.dto.AskListDTO">
+        select q.*,
+               giver.photo     as 'giverAvatar',
+               solver.photo    as 'solverAvatar',
+               giver.nickname  as 'giverNickname',
+               solver.nickname as 'solverNickname'
+        from queslist as q
+                 inner join user giver on giver.uid = q.giverID
+                 inner join user solver on solver.uid = q.solverID
+        where q.solverID in (
+            select blogger
+            from concern
+            where viewer = #{viewer}
+        )
+        limit #{offset},#{limit}
+    </select>
+
+</mapper>
