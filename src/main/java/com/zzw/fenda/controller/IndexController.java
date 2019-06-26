@@ -10,10 +10,10 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = {"index", ""})
+@RequestMapping("/index")
 public class IndexController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public Map<String, String> index() {
         HashMap<String, String> map = new HashMap<>();
         map.put("errCode", "0");
