@@ -2,6 +2,8 @@ package com.zzw.fenda.controller;
 
 import com.zzw.fenda.dao.UserDao;
 import com.zzw.fenda.dto.UserBasicDTO;
+import com.zzw.fenda.dto.UserListDTO;
+import com.zzw.fenda.dto.UserListFilter;
 import com.zzw.fenda.po.User;
 import com.zzw.fenda.util.JsonR;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -55,6 +58,26 @@ public class UserController {
             }
             BeanUtils.copyProperties(user, userBasicDTO);
             return JsonR.createSuccess(userBasicDTO);
+        } catch (Exception e) {
+            return JsonR.createFail(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/list")
+    public JsonR list(UserListFilter userListFilter,
+                      Integer page,
+                      Integer limit,
+                      HttpServletRequest request) {
+        try {
+            page = page == null ? 1 : page;
+            limit = limit == null ? 7 : limit;
+            int offset = (page - 1) * limit;
+
+            List<UserListDTO> userListDTOList;
+            userListDTOList = userDao.listUserByFilter(userListFilter, offset, limit);
+
+            return JsonR.createSuccess(userListDTOList);
+
         } catch (Exception e) {
             return JsonR.createFail(e.getMessage());
         }
