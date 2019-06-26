@@ -25,8 +25,11 @@ public class UserController {
     private UserDao userDao;
 
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public JsonR modify(User user) {
+    public JsonR modify(User user,
+                        HttpServletRequest request) {
         try {
+            Integer uid = (Integer) request.getAttribute("uid");
+            user.setUid(uid);
             userDao.updateByUId(user);
             return JsonR.createSuccess();
         } catch (Exception e) {
