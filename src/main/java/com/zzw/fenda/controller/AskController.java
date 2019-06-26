@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -57,7 +58,8 @@ public class AskController {
                 throw new Exception("你不是该问题的回答者");
             }
             queslist.setAnswer(answer)
-                    .setAudioUrl(audioUrl);
+                    .setAudioUrl(audioUrl)
+                    .setSolveDate(new Timestamp(System.currentTimeMillis()));
 
             queslistDao.updateReplyById(queslist);
             return JsonR.createSuccess(queslist.getQuesID());
