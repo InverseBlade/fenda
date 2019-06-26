@@ -22,6 +22,7 @@ public class ListenController {
     @Resource
     private ConcernDao concernDao;
 
+    @RequestMapping("/get")
     public JsonR get(Integer uid,
                      HttpServletRequest request) {
         try {
