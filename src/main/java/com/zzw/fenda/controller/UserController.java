@@ -1,30 +1,82 @@
 package com.zzw.fenda.controller;
 
+import com.zzw.fenda.dao.UserDao;
+import com.zzw.fenda.dto.UserBasicDTO;
 import com.zzw.fenda.po.User;
 import com.zzw.fenda.util.JsonR;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/user")
 public class UserController {
 
+    @Resource
+    private UserDao userDao;
+
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public JsonR modify(User user) {
-        return null;
+        try {
+            userDao.updateByUId(user);
+            return JsonR.createSuccess();
+        } catch (Exception e) {
+            return JsonR.createFail(e.getMessage());
+        }
     }
 
     @RequestMapping("/me")
-    public JsonR me() {
-        return JsonR.createSuccess(new User());
+    public JsonR me(HttpServletRequest request) {
+        try {
+            User user;
+            Integer uid = (Integer) request.getAttribute("uid");
+            if ((user = userDao.selectByUId(uid)) == null) {
+                throw new Exception("用户不存在");
+            }
+            return JsonR.createSuccess(user);
+        } catch (Exception e) {
+            return JsonR.createFail(e.getMessage());
+        }
     }
 
     @RequestMapping("/get")
     public JsonR get(Integer uid) {
-        return null;
+        try {
+            UserBasicDTO userBasicDTO = new UserBasicDTO();
+            User user;
+            if ((user = userDao.selectByUId(uid)) == null) {
+                throw new Exception("用户不存在");
+            }
+            BeanUtils.copyProperties(user, userBasicDTO);
+            return JsonR.createSuccess(userBasicDTO);
+        } catch (Exception e) {
+            return JsonR.createFail(e.getMessage());
+        }
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
