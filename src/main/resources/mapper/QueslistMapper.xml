@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.zzw.fenda.dao.QueslistDao">
+
+    <insert id="insertAndGetId" parameterType="Queslist" keyProperty="quesID">
+        insert into queslist(giverID, solverID, quesInfo)
+        values (#{giverID}, #{solverID}, #{quesInfo})
+    </insert>
+
+    <select id="selectById" parameterType="Integer">
+        select *
+        from queslist
+        where quesID = #{id}
+    </select>
+
+    <update id="updateReplyById" parameterType="Queslist">
+        update queslist
+        set solveDate=#{solveDate},
+            answer=#{answer},
+            audioUrl=#{audioUrl}
+        where quesID = #{quesID}
+    </update>
+
+    <select id="listQuesByFilter" resultType="com.zzw.fenda.dto.AskListDTO">
+        select q.*,
+            giver.photo as 'giverAvatar',
+            solver.photo as 'solverAvatar',
+            giver.nickname as 'giverNickname',
+            solver.nickname as 'solverNickname'
+        from queslist as q
+        inner join user giver on giver.uid = q.giverID
+        inner join user solver on solver.uid = q.solverID
+        <where>
+            <if test="giverID != null">
+                and q.giverID = #{giverID}
+            </if>
+            <if test="solverID != null">
+                and q.solverID = #{solverID}
+            </if>
+            <if test="keyword != null">
+                and (q.quesInfo LIKE CONCAT('%',#{filter.keyword},'%')
+            </if>
+        </where>
+        limit #{offset},#{limit}
+    </select>
+
+</mapper>
