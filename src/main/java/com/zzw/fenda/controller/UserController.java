@@ -77,7 +77,10 @@ public class UserController {
             int offset = (page - 1) * limit;
 
             List<UserListDTO> userListDTOList;
-            userListDTOList = userDao.listUserByFilter(userListFilter, offset, limit);
+//            userListDTOList = userDao.listUserByFilter(userListFilter, offset, limit);
+            Integer uid = (Integer) request.getAttribute("uid");
+
+            userListDTOList = userDao.listUnListenedBloggerByViewer(userListFilter, uid, offset, limit);
 
             return JsonR.createSuccess(userListDTOList);
 

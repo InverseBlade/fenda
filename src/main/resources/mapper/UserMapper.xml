@@ -57,6 +57,24 @@
         limit #{offset},#{limit}
     </select>
 
+    <select id="listUnListenedBloggerByViewer" resultType="com.zzw.fenda.dto.UserListDTO">
+        select *
+        from `user`
+        <where>
+            <if test="filter.keyword != null">
+                and `nickname` LIKE CONCAT('%',#{filter.keyword},'%')
+            </if>
+            <if test="filter.nickname != null">
+                and nickname = #{filter.nickname}
+            </if>
+            <if test="filter.honor != null">
+                and honor = #{filter.honor}
+            </if>
+            and uid not in (select blogger as uid from concern where viewer=#{viewer})
+        </where>
+        limit #{offset},#{limit}
+    </select>
+
 </mapper>
 
 

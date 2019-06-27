@@ -23,4 +23,9 @@ public interface UserDao {
                                        @Param("offset") Integer offset,
                                        @Param("limit") Integer limit) throws Exception;
 
+    List<UserListDTO> listUnListenedBloggerByViewer(@Param("filter") UserListFilter filter,
+                                                    @Param("viewer") Integer viewer,
+                                                    @Param("offset") Integer offset,
+                                                    @Param("limit") Integer limit) throws Exception;
+
 }

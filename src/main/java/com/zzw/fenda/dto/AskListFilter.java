@@ -8,6 +8,17 @@ public class AskListFilter {
 
     private String keyword;
 
+    private Integer solved;
+
+    public Integer getSolved() {
+        return solved;
+    }
+
+    public AskListFilter setSolved(Integer solved) {
+        this.solved = solved;
+        return this;
+    }
+
     public Integer getGiverID() {
         return giverID;
     }

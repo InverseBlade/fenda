@@ -25,13 +25,13 @@
 
     <select id="listQuesByFilter" resultType="com.zzw.fenda.dto.AskListDTO">
         select q.*,
-               giver.photo     as 'giverAvatar',
-               solver.photo    as 'solverAvatar',
-               giver.nickname  as 'giverNickname',
-               solver.nickname as 'solverNickname'
+            giver.photo as 'giverAvatar',
+            solver.photo as 'solverAvatar',
+            giver.nickname as 'giverNickname',
+            solver.nickname as 'solverNickname'
         from queslist as q
-                 inner join user giver on giver.uid = q.giverID
-                 inner join user solver on solver.uid = q.solverID
+        inner join user giver on giver.uid = q.giverID
+        inner join user solver on solver.uid = q.solverID
         <where>
             <if test="filter.giverID != null">
                 and q.giverID = #{filter.giverID}
@@ -41,6 +41,12 @@
             </if>
             <if test="filter.keyword != null">
                 and q.quesInfo LIKE CONCAT('%',#{filter.keyword},'%')
+            </if>
+            <if test="filter.solved != null and filter.solved != 0">
+                and q.solveDate is not null
+            </if>
+            <if test="filter.solved != null and filter.solved == 0">
+                and q.solveDate is null
             </if>
         </where>
         limit #{offset},#{limit}
