@@ -42,13 +42,10 @@ public class LoginController {
         param = String.format(
                 "appid=%s&secret=%s&js_code=%s&grant_type=authorization_code",
                 "wxc6527edcf40e4a19",
-                "e01517a379b8d63bb132c12e9927d534",
+                "16489b7a6d830c0fdc05d14e2c04fa58",
                 code
         );
-        res = sendGet(
-                "https://api.weixin.qq.com/sns/jscode2session",
-                param
-        );
+        res = sendGet("https://api.weixin.qq.com/sns/jscode2session", param);
         JSONObject root = JSONObject.parseObject(res);
 
         String sessionId = root.getString("session_key");

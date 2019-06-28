@@ -46,6 +46,7 @@
             from concern
             where viewer = #{viewer}
         )
+          and q.solveDate is not null
         limit #{offset},#{limit}
     </select>
 
