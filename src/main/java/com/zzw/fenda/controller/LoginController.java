@@ -41,7 +41,9 @@ public class LoginController {
 
         param = String.format(
                 "appid=%s&secret=%s&js_code=%s&grant_type=authorization_code",
+                //app-id
                 "wxc6527edcf40e4a19",
+                //app-secret记得删掉
                 "16489b7a6d830c0fdc05d14e2c04fa58",
                 code
         );
